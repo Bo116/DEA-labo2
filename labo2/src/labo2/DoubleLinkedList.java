@@ -26,13 +26,33 @@ public class DoubleLinkedList<T> implements ListADT<T> {
 	  return deskr;
 	}
 
+
 	public T removeFirst() {
+		if (isEmpty()) return null;
+		Node<T> oraingoa = last;
+		while (oraingoa.prev != null) {
+			oraingoa = oraingoa.prev;
+		}
+		T kendutakoDatua = oraingoa.data;
+		if(oraingoa.next !=null) {
+			oraingoa.next.prev = null;
+		} else {
+			last = null;
+		}
+		if(oraingoa == last) {
+			last = null;
+		}
+		count--;
+		return kendutakoDatua;
+			
 	// listako lehen elementua kendu da
 	// Aurrebaldintza: 
 		// KODEA OSATU ETA KOSTUA KALKULATU
+		
 	}
 
 	public T removeLast() {
+		
 	// listako azken elementua kendu da
 	// Aurrebaldintza: 
 		// KODEA OSATU ETA KOSTUA KALKULATU
