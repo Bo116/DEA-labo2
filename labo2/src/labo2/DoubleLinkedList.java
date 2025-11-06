@@ -30,121 +30,103 @@ public class DoubleLinkedList<T> implements ListADT<T> {
 		this.last= elem;
 	}
 	public void addToRear(T elem) {
-		Node<T> nodoBerria = new Node<T>(elem);
-		
-		if (isEmpty()) {
-			last=nodoBerria;
-		}
-		else {
-			last.next=nodoBerria;
-			nodoBerria.prev=last;
-			last=nodoBerria;
-		}
-		}
-	
-	public T removeFirst() {
-		// listako lehen elementua kendu da
-		// Aurrebaldintza: 
-			// KODEA OSATU ETA KOSTUA KALKULATU
-		if (isEmpty()) return null;
-		Node<T> current = last;
-		while (current.prev != null) {
-			current = current.prev;
-		}
-		T kendutakoDatua = current.data;
-		if(current.next !=null) {
-			current.next.prev = null;
-		} else {
-			last = null;
-		}
-		if(current == last) {
-			last = null;
-		}
-		count--;
-		return kendutakoDatua;
+	    Node<T> nodoBerria = new Node<T>(elem);
+
+	    if (isEmpty()) {
+	        last = nodoBerria;
+	    } else {
+	        last.next = nodoBerria;
+	        nodoBerria.prev = last;
+	        last = nodoBerria;
+	    }
+	    count++;
 	}
 
-	public T removeLast() {
-		// listako azken elementua kendu da
-		// Aurrebaldintza: 
-			// KODEA OSATU ETA KOSTUA KALKULATU
-		if(isEmpty()) return null;
-		Node<T> current = last;
-		T kendutakoDatua = last.data;
-		if(current.prev!=null) {
-			current.prev.next =null;
-			last=current.prev.next;
-		}
-		else {
-			last=null;
-		}
-		count--;
-		return kendutakoDatua;
-		
-		
 	
-    }
+		public T removeFirst() {
+		    if (isEmpty()) return null;
+
+		    Node<T> current = last;
+		    while (current.prev != null)
+		        current = current.prev;
+
+		    T data = current.data;
+		    if (current.next != null)
+		        current.next.prev = null;
+		    else
+		        last = null;
+
+		    count--;
+		    return data;
+		}
+
+
+		public T removeLast() {
+		    if (isEmpty()) return null;
+
+		    T data = last.data;
+
+		    if (last.prev != null) {
+		        last = last.prev;
+		        last.next = null;
+		    } else {
+		        last = null;
+		    }
+
+		    count--;
+		    return data;
+		}
+
+
 
 
 	public T remove(T elem) {
-	// Aurrebaldintza: 
-	// Balio hori listan baldin badago, bere lehen agerpena ezabatuko dut. Kendutako objektuaren erreferentzia 
-        //  bueltatuko du (null ez baldin badago)
-		// KODEA OSATU ETA KOSTUA KALKULATU
-		if(isEmpty()) return null;
-		T kendutakoDatua = null;
-		Node<T> current = last;
-		while(current.prev != null) {
-			current= current.prev;
-		}
-		while(current.next != null && kendutakoDatua==null) {
-			if (current.data == elem) {
-				kendutakoDatua= current.data;
-				if(current.prev != null) {
-					if(current.next != null) {
-					current.next.prev=current.prev;
-					current.prev.next=current.next;}
-					else {
-						current.prev.next=null;
-					}
-				
-				}
-				else {
-					current.next.prev=null;
-					
-				}
-			}
-			current=current.next;
-		}
-		return kendutakoDatua;
-        };
+	    if (isEmpty()) return null;
+
+	    Node<T> current = last;
+	    while (current.prev != null)
+	        current = current.prev; 
+
+	    while (current != null) {
+	        if (current.data.equals(elem)) {
+	            T data = current.data;
+	            if (current.prev != null)
+	                current.prev.next = current.next;
+	            if (current.next != null)
+	                current.next.prev = current.prev;
+	            if (current == last)
+	                last = current.prev;
+
+	            count--;
+	            return data;
+	        }
+	        current = current.next;
+	    }
+	    return null;
+	}
+
 		
 	public void removeAll(T elem) {
-		
-	// Aurrebaldintza: 
-	// Balio zehatz baten agerpen guztiak ezabatzen ditu
-	
-		// KODEA OSATU ETA KOSTUA KALKULATU
-		if(!isEmpty()) {
-		Node<T> current = last;
-		while(current.prev != null) {
-			if (current.data == elem) {
-				if(current.prev != null) {
-					if(current.next != null) {
-					current.next.prev=current.prev;
-					current.prev.next=current.next;}
-					else {
-						current.prev.next=null;
-					}
-				}
-				else {
-					current.next.prev=null;
-				}
-			}
-			current =current.prev;
-		}
-		}
-		}
+	    if (isEmpty()) return;
+
+	    Node<T> current = last;
+	    while (current.prev != null)
+	        current = current.prev;
+
+	    while (current != null) {
+	        if (current.data.equals(elem)) {
+	            if (current.prev != null)
+	                current.prev.next = current.next;
+	            if (current.next != null)
+	                current.next.prev = current.prev;
+	            if (current == last)
+	                last = current.prev;
+	            count--;
+	        }
+	        current = current.next;
+	    }
+	}
+
    
 
 	public T first() {
@@ -165,89 +147,74 @@ public class DoubleLinkedList<T> implements ListADT<T> {
 		return last.data;
 		}
 
-	public DoubleLinkedList<T> clone(){
-		// Zerrendaren kopia bat itzultzen du (ez du punteroa bikoizten)
-	   // KODEA OSATU ETA KOSTUA KALKULATU
-		
-		DoubleLinkedList<T> kopia = new DoubleLinkedList<T>();
-		Node<T> current = last;
-		while (current.prev != null) {
-			kopia.setLast(current);
-			current=current.prev;
-		}
-		return kopia;
-	} 
+	public DoubleLinkedList<T> clone() {
+	    DoubleLinkedList<T> copy = new DoubleLinkedList<>();
+	    Node<T> current = last;
+	    while (current != null && current.prev != null)
+	        current = current.prev; // ir al primero
+	    
+	    while (current != null) {
+	        copy.addToRear(current.data);
+	        current = current.next;
+	    }
+	    return copy;
+	}
+
 
 	public boolean contains(T elem) {
-	// Egiazkoa bueltatuko du aurkituz gero, eta false bestela
-
-  		// KODEA OSATU ETA KOSTUA KALKULATU
-		boolean aurkitua=false;
-		      if (isEmpty())
-		          return false;
-		      Node<T> current= last;
-		      while(current.prev!=null && !aurkitua) {
-		    	  if (current.data == elem) {
-		    		  aurkitua=true;
-		    		  
-		    	  }
-		      }
-		      return aurkitua;
-
-		   }
+	    if (isEmpty()) return false;
+	    Node<T> current = last;
+	    while (current != null) {
+	        if (current.data.equals(elem)) return true;
+	        current = current.prev;
+	    }
+	    return false;
+	}
 
 	public T find(T elem) {
-	// Elementua bueltatuko du aurkituz gero, eta null bestela
-
-		// KODEA OSATU ETA KOSTUA KALKULATU
-		Node<T> oraingoa = last;
-		T datua = null;
-		while(oraingoa.prev!=null && datua==null) {
-			if (oraingoa.data == elem) {
-				datua=oraingoa.data;
-			}
-			
-		}
-		return datua;
+	    if (isEmpty()) return null;
+	    Node<T> current = last;
+	    while (current != null) {
+	        if (current.data.equals(elem)) return current.data;
+	        current = current.prev;
+	    }
+	    return null;
 	}
 
-	public boolean isEmpty() { 
-	// KODEA OSATU ETA KOSTUA KALKULATU
-		boolean hutsik=false;
-		if (last==null) {
-			hutsik=true;
-		}
-		return hutsik;
+
+	public boolean isEmpty() {
+	    return last == null;
 	}
+
 	
 	public int size() { 
 	// KODEA OSATU ETA KOSTUA KALKULATU
 	return count;
 	}
 	
-	/** Return an iterator to the stack that iterates through the items . */ 
 	   public Iterator<T> iterator() { return new ListIterator(); } 
 
-	   // an iterator, doesn't implement remove() since it's optional 
 	   private class ListIterator implements Iterator<T> { 
-		   private Node<T> current = last; 
+		    private Node<T> current = firstNode(); 
 
-		   public boolean hasNext()  { 
-			   return (current != null);                     
-			   } 
+		    private Node<T> firstNode() {
+		        Node<T> temp = last;
+		        while (temp != null && temp.prev != null)
+		            temp = temp.prev;
+		        return temp;
+		    }
 
-		   
+		    public boolean hasNext() { return current != null; }
 
-		   public T next() { 
-			   if (!hasNext()) return null; 
-			   T elem = current.data; 
-			   current = current.prev; 
-			   return elem; 
-			   }
+		    public T next() {
+		        if (!hasNext()) throw new NoSuchElementException();
+		        T elem = current.data;
+		        current = current.next;
+		        return elem;
+		    }
+		}
 
-		// KODEA OSATU 
-		   
-	   } // private class
+	    // private class
 		
 		
 		public void adabegiakInprimatu() {
